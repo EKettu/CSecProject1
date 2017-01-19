@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Sign up form</title>
+    </head>
+    <body>
+
+        <h1>Sign up to the event using this form</h1>
+
+        <h2>Select the event</h2>
+
+        <form action="#" th:action="@{/form}" method="POST">
+            <ul>
+                <li th:each="event : ${allEvents}">
+                    <span th:text="${event.name}">event</span> 
+                        <input type="radio" name="eventID" th:value="${event.id}"/>
+                </li>
+            </ul>
+            <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
+            <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+
+        <h1>Event organizer?</h1>
+        <a th:if="${account==null}" th:href="@{/login}">Click here to log in</a>
+            <a th:if="${account!=null}" th:href="@{/view/{id} (id=${account.id})}">Click here to manage your event</a>
+        <p></p>
+    </body>
+</html>
