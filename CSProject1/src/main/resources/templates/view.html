@@ -14,7 +14,9 @@
                     <tr>
                         <th>Signed up persons here</th>
                     </tr>
-
+                   <!--A3-Cross-Site Scripting (XSS):                  
+                   Normally Thymeleaf escapes text inputs (th:text), but here th:utext
+                   enables XSS attacks because the text is unescaped.-->
                     <tr th:each="signup : ${event.signups}">
                         <td th:utext="${signup.name}">Name</td>
                         <td th:utext="${signup.address}">Address</td>

@@ -24,9 +24,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // no real security at the moment
-                http.csrf().disable();
-     //   http.headers().frameOptions().sameOrigin();
+        // A8-Cross-Site Request Forgery (CSRF): 
+        //Thymeleaf automatically adds a CSRF token for a session, 
+        // but this disables the token enabling CSRF attacks.
+        http.csrf().disable();
+
+        //http.headers().frameOptions().sameOrigin(); 
+        //Previous line of code would
+        //help to prevent clickjacking attacks...
         
         http.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
@@ -35,9 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .permitAll()
                 .defaultSuccessUrl("/form", true);
-        
-//        http.authorizeRequests()
-//                .anyRequest().permitAll();
+
     }
 
     @Autowired
@@ -45,15 +48,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    //unsafe version
+    //A9-Using Components with Known Vulnerablities:
+    //I have switched BCryptPasswordEncoder to StandardPasswordEncoder,
+    //which is an older and less secure version. 
+    // See http://docs.spring.io/spring-security/site/docs/current/apidocs/org/springframework/security/crypto/password/StandardPasswordEncoder.html
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new StandardPasswordEncoder();
     }
-    
+
     @Bean
     ServletRegistrationBean h2servletRegistration() {
-        ServletRegistrationBean registrationBean = new ServletRegistrationBean (new WebServlet());
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
         registrationBean.addUrlMappings("/console/*");
         return registrationBean;
     }

@@ -28,7 +28,15 @@ public class EventController {
      @Autowired
     private SignupRepository signupRepository;
 
-    
+    //A7-Missing Function Level Access Control:
+    //In this controller there is no proper authentication in the request to the server,
+    //so even if the events are only shown if someone is authenticated,
+     //there are no checks to make sure the one authenticated is the organizer of the event. Thus
+     //two users logged in at the same time are able to view and manage each other's events.
+     
+    //A2-Broken Authentication and Session Management:
+    //Application doesn't practically do any session management. Account.id is visible in the url
+    // in plain text, which makes it easy to guess other users' account.ids.
     
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
     public String showEvents(Authentication authentication, Model model, @PathVariable Long id) {
