@@ -48,8 +48,10 @@ public class SignupController {
     }
    
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String submitForm(@RequestParam String name, @RequestParam String address, @RequestParam Long eventID) {
-        Signup signup = new Signup(name, address);     
+    public String submitForm(@RequestParam String name, @RequestParam String address, 
+    @RequestParam Long eventID, Model model) {
+        Signup signup = new Signup(name, address);  
+        model.addAttribute("signup", signup);
         Event event = eventRepository.findOne(eventID);
         List<Signup> signUps = event.getSignups();
         signUps.add(signup);      
@@ -60,9 +62,9 @@ public class SignupController {
         return "done";
     }
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loadLogin() {
-        return "login";
-    }
+//    @RequestMapping(value = "/login", method = RequestMethod.GET)
+//    public String loadLogin() {
+//        return "login";
+//    }
        
 }

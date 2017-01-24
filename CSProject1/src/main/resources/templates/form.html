@@ -4,7 +4,7 @@
         <title>Sign up form</title>
     </head>
     <body>
-
+        <div th:if="${account==null}">
         <h1>Sign up to the event using this form</h1>
 
         <h2>Select the event</h2>
@@ -21,9 +21,14 @@
             <p><input type="submit" value="Submit" /></p>
         </form>
 
-        <h1>Event organizer?</h1>
-        <a th:if="${account==null}" th:href="@{/login}">Click here to log in</a>
-            <a th:if="${account!=null}" th:href="@{/view/{id} (id=${account.id})}">Click here to manage your event</a>
-        <p></p>
+        <h1>Event organizer?</h1>      
+        <a th:href="@{/login}">Click here to log in</a>
+        </div>
+        
+        <div th:if="${account!=null}" >
+            <h1 th:text = "${account.events[0].name}" ></h1>
+            <a th:href="@{/view/{id} (id=${account.id})}">Click here to manage your event</a>
+        </div>
+            <p></p>
     </body>
 </html>

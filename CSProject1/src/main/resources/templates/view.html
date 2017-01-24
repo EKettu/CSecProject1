@@ -5,31 +5,34 @@
     </head>
     <body>
 
-        <h1>Persons signed up for the event</h1>
+        <h1>Persons signed up for your event</h1>
         <ul>
             <li th:each="event : ${events}" >
                 <span th:text="${event.name}" >event</span>              
-                    
+
                 <table>
                     <tr>
-                        <th>Signed up persons here</th>
+                        <th>Signed up</th>
                     </tr>
-                   <!--A3-Cross-Site Scripting (XSS):                  
-                   Normally Thymeleaf escapes text inputs (th:text), but here th:utext
-                   enables XSS attacks because the text is unescaped.-->
+                    <!--A3-Cross-Site Scripting (XSS):                  
+                    Normally Thymeleaf escapes text inputs (th:text), but here th:utext
+                    enables XSS attacks because the text is unescaped.-->
                     <tr th:each="signup : ${event.signups}">
                         <td th:utext="${signup.name}">Name</td>
                         <td th:utext="${signup.address}">Address</td>
-                        <td><form th:action="@{/view/signed/{id}(id=${signup.id})}" th:method="delete"><input type="submit" value="Delete"/></form></td>
-                        <td><form th:action="@{/view/signed/{id}(id=${signup.id})}" th:method="post"><input type="submit" value="Add VIP"/></form></td>
+                        <td><form th:action="@{/view/signed/{id}(id=${signup.id})}" th:method="delete">
+                                <input type="submit" value="Delete"/></form></td>
+                        <td><form th:action="@{/view/signed/{id}(id=${signup.id})}" th:method="post">
+                                <input type="submit" value="Add VIP"/></form></td>
                     </tr>
                 </table>
-               
+
             </li>
         </ul>
 
         <form th:action="@{/logout}" method="POST">
             <input type="submit" value="Logout"/>
         </form>
+        
     </body>
 </html>

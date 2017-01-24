@@ -3,13 +3,13 @@ package sec.project.config;
 import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-//import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,9 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // but this disables the token enabling CSRF attacks.
         http.csrf().disable();
 
-        //http.headers().frameOptions().sameOrigin(); 
-        //Previous line of code would
-        //help to prevent clickjacking attacks...
+        //http.headers().frameOptions().sameOrigin(); //Could add some protection against clickjacking
         
         http.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
@@ -40,6 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .permitAll()
                 .defaultSuccessUrl("/form", true);
+        
+        //A2-Broken Authentication and Session Management
+        //Original HTTP Session will not be invalidated.
+        http.sessionManagement()
+            .sessionFixation().none();
 
     }
 
@@ -51,7 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //A9-Using Components with Known Vulnerablities:
     //I have switched BCryptPasswordEncoder to StandardPasswordEncoder,
     //which is an older and less secure version. 
-    // See http://docs.spring.io/spring-security/site/docs/current/apidocs/org/springframework/security/crypto/password/StandardPasswordEncoder.html
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new StandardPasswordEncoder();

@@ -22,8 +22,8 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
     
-     @Autowired
-    private AccountRepository accountRepository;
+//     @Autowired
+//    private AccountRepository accountRepository;
      
      @Autowired
     private SignupRepository signupRepository;

@@ -35,8 +35,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public void init() {
         
         Account account = new Account();
-        account.setUsername("Jaska");
-        account.setPassword(passwordEncoder.encode("ressu"));
+        account.setUsername("Charlie");
+        account.setPassword(passwordEncoder.encode("snoopy"));
         accountRepository.save(account);
         Event event1 = new Event();
         event1.setName("Great Pumpkin party");
@@ -48,8 +48,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         eventRepository.save(event1);
         
         account = new Account();
-        account.setUsername("Esko");
-        account.setPassword(passwordEncoder.encode("karvinen"));
+        account.setUsername("Jon");
+        account.setPassword(passwordEncoder.encode("garfield"));
         accountRepository.save(account);
         Event event2 = new Event();
         event2.setName("Pizza Party");
