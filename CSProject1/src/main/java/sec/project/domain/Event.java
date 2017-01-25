@@ -19,12 +19,12 @@ public class Event extends AbstractPersistable<Long> {
 
     @ManyToOne
     private Account account;
-    
-    @OneToMany (mappedBy = "event", fetch=FetchType.EAGER)
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     private List<Signup> signups;
 
     public List<Signup> getSignups() {
-        if(signups == null) {
+        if (signups == null) {
             return new ArrayList<Signup>();
         }
         return signups;
@@ -33,7 +33,7 @@ public class Event extends AbstractPersistable<Long> {
     public void setSignups(List<Signup> signups) {
         this.signups = signups;
     }
-  
+
     public String getName() {
         return this.name;
     }

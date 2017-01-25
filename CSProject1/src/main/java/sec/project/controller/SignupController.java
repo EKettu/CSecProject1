@@ -23,11 +23,11 @@ public class SignupController {
 
     @Autowired
     private EventRepository eventRepository;
-        
+
     @Autowired
     private SignupRepository signupRepository;
-    
-        @Autowired
+
+    @Autowired
     private AccountRepository accountRepository;
 
     @RequestMapping("*")
@@ -37,34 +37,28 @@ public class SignupController {
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
     public String loadForm(Model model, Authentication authentication) {
-         Account account = null;
-        if(authentication != null) {
-             account = accountRepository.findByUsername(authentication.getName());
+        Account account = null;
+        if (authentication != null) {
+            account = accountRepository.findByUsername(authentication.getName());
         }
-       
         model.addAttribute("account", account);
         model.addAttribute("allEvents", eventRepository.findAll());
         return "form";
     }
-   
+
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String submitForm(@RequestParam String name, @RequestParam String address, 
-    @RequestParam Long eventID, Model model) {
-        Signup signup = new Signup(name, address);  
+    public String submitForm(@RequestParam String name, @RequestParam String address,
+            @RequestParam Long eventID, Model model) {
+        Signup signup = new Signup(name, address);
         model.addAttribute("signup", signup);
         Event event = eventRepository.findOne(eventID);
         List<Signup> signUps = event.getSignups();
-        signUps.add(signup);      
-        event.setSignups(signUps); 
+        signUps.add(signup);
+        event.setSignups(signUps);
         signup.setEvent(event);
         signupRepository.save(signup);
         eventRepository.save(event);
         return "done";
     }
-    
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public String loadLogin() {
-//        return "login";
-//    }
-       
+
 }

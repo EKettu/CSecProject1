@@ -18,13 +18,12 @@ import sec.project.domain.Event;
 import sec.project.repository.AccountRepository;
 import sec.project.repository.EventRepository;
 
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-  
+
     @Autowired
     private AccountRepository accountRepository;
-    
+
     @Autowired
     private EventRepository eventRepository;
 
@@ -33,20 +32,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        
+
         Account account = new Account();
         account.setUsername("Charlie");
         account.setPassword(passwordEncoder.encode("snoopy"));
         accountRepository.save(account);
         Event event1 = new Event();
         event1.setName("Great Pumpkin party");
-          eventRepository.save(event1);
+        eventRepository.save(event1);
         List<Event> jEvents = new ArrayList<Event>();
         jEvents.add(event1);
         event1.setAccount(account);
         account.setEvents(jEvents);
         eventRepository.save(event1);
-        
+
         account = new Account();
         account.setUsername("Jon");
         account.setPassword(passwordEncoder.encode("garfield"));
@@ -77,6 +76,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true,
                 Arrays.asList(new SimpleGrantedAuthority("USER")));
     }
-    
-}
 
+}

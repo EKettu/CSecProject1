@@ -12,7 +12,7 @@ public class Signup extends AbstractPersistable<Long> {
     private String address;
     @Id
     private Long id;
-    
+
     @ManyToOne
     private Event event;
 
@@ -41,9 +41,9 @@ public class Signup extends AbstractPersistable<Long> {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setVIP() {
-        this.name = this.name +" VIP";
+        this.name = this.name + " VIP";
     }
 
     public String getAddress() {

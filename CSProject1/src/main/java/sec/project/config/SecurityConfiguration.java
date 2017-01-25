@@ -25,12 +25,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // A8-Cross-Site Request Forgery (CSRF): 
-        //Thymeleaf automatically adds a CSRF token for a session, 
+        // Thymeleaf automatically adds a CSRF token for a session, 
         // but this disables the token enabling CSRF attacks.
         http.csrf().disable();
 
         //http.headers().frameOptions().sameOrigin(); //Could add some protection against clickjacking
-        
         http.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
                 .antMatchers("/form").permitAll()
@@ -38,11 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .permitAll()
                 .defaultSuccessUrl("/form", true);
-        
-        //A2-Broken Authentication and Session Management
-        //Original HTTP Session will not be invalidated.
+
+        // A2-Broken Authentication and Session Management
+        // Original HTTP Session will not be invalidated.
         http.sessionManagement()
-            .sessionFixation().none();
+                .sessionFixation().none();
 
     }
 
@@ -51,9 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    //A9-Using Components with Known Vulnerablities:
-    //I have switched BCryptPasswordEncoder to StandardPasswordEncoder,
-    //which is an older and less secure version. 
+    // A9-Using Components with Known Vulnerablities:
+    // I have switched BCryptPasswordEncoder to StandardPasswordEncoder,
+    // which is an older and less secure implementation. 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new StandardPasswordEncoder();

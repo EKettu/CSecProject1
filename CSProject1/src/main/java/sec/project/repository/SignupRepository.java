@@ -9,7 +9,5 @@ import sec.project.domain.Signup;
 public interface SignupRepository extends JpaRepository<Signup, Long> {
 
     List<Signup> findByEvent(Event event);
-    
-//    @Query("SELECT s FROM Signup")
-//    Signup findSignups();
+
 }
